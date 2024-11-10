@@ -55,10 +55,13 @@
             </div>
         </nav>
         <div class="regForma" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); background-color: lightblue; margin: auto; padding: 20px; max-width: 400px;">
-            <form style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                <input style="width: 200px; margin-top: 5%; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="email" name="login" required placeholder="Введите почту">
+            <form method="post" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                {% csrf_token %}
+                <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="login" required placeholder="Введите логин">
+                <input style="width: 200px; margin-top: 5%; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="email" name="mailAdress" required placeholder="Введите почту">
                 <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="password" required placeholder="Введите пароль">
-                <button type="button" class="buttonRegistration" style="width: 200px; background-color: #4169E1; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Зарегистрироваться</button>
+                <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="passwordRepeat" required placeholder="Повторите пароль">
+                <button type="submit" class="buttonRegistration" style="width: 200px; background-color: #4169E1; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Зарегистрироваться</button>
             </form>
         </div>
     </div>
