@@ -20,7 +20,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: lightblue;">
             <div class="container-fluid" style="background-color: lightblue;">
                 <img src="{% static 'app/image/logoLight.png' %}" alt="ЛогоСветлое" width="64px%" height="64px" class="d-inline-block align-text-top">
-                <a class="navbar-brand" href="{% url 'home' %}">Online Millionaire</a>
+                <a class="navbar-brand" href="{% url 'intro' %}">Online Millionaire</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -33,15 +33,16 @@
             </div>
         </nav>
         <div class="AuthorisationForm" style="width: 500px; height: 250px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); background-color: lightblue; margin: auto;">
-            <form style="display: flex; flex-direction: column; align-items: flex-start; align-items: center; gap: 10px;">
-                <input style="margin-top: 5%; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="login" required placeholder="Введите логин">
-                <input style="border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="password" required placeholder="Введите пароль">
-                <button type="button" class="buttonLogIn" style="background-color: #4169E1; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Войти</button>
+            <form method="post" style="display: flex; flex-direction: column; align-items: flex-start; align-items: center; gap: 10px;">
+                {% csrf_token %}
+                <input style="margin-top: 5%; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="login" id="loginField" value="{{ request.COOKIES.login|default:'' }}" required placeholder="Введите логин">
+                <input style="border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="password" name="password" required placeholder="Введите пароль">
+                <button type="submit" class="buttonLogIn" style="background-color: #4169E1; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Войти</button>
             </form>
-            <p style="margin-top: 9%; text-align: center;">Нет акканута?</p>
+            <p style="margin-top: 9%; text-align: center;">Нет аккаунта?</p>
             <div style="text-align: center; margin-top: 20px;">
                 <a href="{% url 'registration' %}" style="color: black; text-decoration: none; display: inline-block;">
-                    Регестрируйся
+                    Зарегистрироваться
                 </a>
             </div>
         </div>

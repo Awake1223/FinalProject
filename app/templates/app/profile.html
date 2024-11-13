@@ -11,7 +11,55 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Профиль</title>
 </head>
+<style>
+    body {
+        background-image: url("{% static 'app/image/background4.jpg' %}");
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+</style>
 <body>
-
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: lightblue;">
+            <div class="container-fluid" style="background-color: lightblue;">
+                <img src="{% static 'app/image/logoLight.png' %}" alt="ЛогоСветлое" width="64px%" height="64px" class="d-inline-block align-text-top">
+                <a class="navbar-brand" href="{% url 'intro' %}">Virtual Millionaire</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="background-color: lightblue;">
+                <div class="navbar-nav" style="background-color: lightblue;">
+                  <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
+                  <a class="nav-link active" href="{% url 'rating' %}">Рейтинг</a>
+                  <a class="nav-link active" href="{% url 'currency' %}">Валюты</a>
+                </div>
+            </div>
+                {% if request.session.user_login %}
+                <span class="navbar-text">Добро пожаловать, {{ request.session.user_login }}!</span>
+                <a class="nav-link active" href="{% url 'intro' %}">Выйти</a>
+                 {% else %}
+                <a class="Authorisation" href="{% url 'login' %}" style="text-align: right;">
+                    <img class="AuthorisationImg" src="{% static 'app/image/loginLight.png' %}">Авторизация
+                </a>
+                {% endif %}
+        </nav>
+        <div class="profile-container">
+        <div class="profile-header">
+            <img src="{% static 'app/image/Avatar.jpg' %}" alt="Avatar" class="avatar">
+            <h1 class="username">{{ request.session.user_login }}</h1>
+        </div>
+        <div class="profile-info">
+            <h2>Информация о пользователе</h2>
+            <p><strong>Логин:</strong> {{ request.session.user_login }}</p>
+        </div>
+        <div class="profile-actions">
+            <a href="{% url 'edit' %}" class="btn">Редактировать профиль</a>
+            <a href="{% url 'intro' %}" class="btn btn-danger">Выйти</a>
+        </div>
+    </div>
+    </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </html>

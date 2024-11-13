@@ -21,8 +21,8 @@
             top: 50%; /* Положение сверху */
             left: 50%; /* Положение слева */
             transform: translate(-50%, -50%); /* Сдвигаем элемент на его половину размерности */
-            width: 500px; /* Ширина вашего div */
-            height: 250px; /* Высота вашего div */
+            width: 700px; /* Ширина вашего div */
+            height: 300px; /* Высота вашего div */
             background-color: lightcoral; /* Цвет фона для наглядности */
             text-align: center; /* Выравнивание текста по центру */
             padding: 20px; /* Поля внутри div */}
@@ -42,14 +42,14 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: lightblue;">
             <div class="container-fluid" style="background-color: lightblue;">
                 <img src="{% static 'app/image/logoLight.png' %}" alt="ЛогоСветлое" width="64px%" height="64px" class="d-inline-block align-text-top">
-                <a class="navbar-brand" href="{% url 'home' %}">Virtual Millionaire</a>
+                <a class="navbar-brand" href="{% url 'intro' %}">Virtual Millionaire</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
                 <span class="navbar-toggler-icon"></span>
                 </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="background-color: lightblue;">
                 <div class="navbar-nav" style="background-color: lightblue;">
                   <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
-                  <a class="nav-link active" href="{% url 'rating' %}"">Рейтинг</a>
+                  <a class="nav-link active" href="{% url 'rating' %}">Рейтинг</a>
                   <a class="nav-link active" href="{% url 'currency' %}">Валюты</a>
                 </div>
             </div>
@@ -57,12 +57,19 @@
         <div class="regForma" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); background-color: lightblue; margin: auto; padding: 20px; max-width: 400px;">
             <form method="post" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
                 {% csrf_token %}
-                <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="login" required placeholder="Введите логин">
+                <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="login" id="login" required placeholder="Введите логин">
                 <input style="width: 200px; margin-top: 5%; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="email" name="mailAdress" required placeholder="Введите почту">
-                <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="password" required placeholder="Введите пароль">
-                <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="text" name="passwordRepeat" required placeholder="Повторите пароль">
+                <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="password" name="password" required placeholder="Введите пароль">
+                <input style="width: 200px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" type="password" name="passwordRepeat" required placeholder="Повторите пароль">
                 <button type="submit" class="buttonRegistration" style="width: 200px; background-color: #4169E1; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">Зарегистрироваться</button>
             </form>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li style="font-family: Roboto; color:red; margin-top:3%; font-size:1.5em "  {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
         </div>
     </div>
 </body>

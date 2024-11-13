@@ -61,7 +61,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: lightblue;">
             <div class="container-fluid" style="background-color: lightblue;">
                 <img src="{% static 'app/image/logoLight.png' %}" alt="ЛогоСветлое" width="64px%" height="64px" class="d-inline-block align-text-top">
-                <a class="navbar-brand" href="{% url 'home' %}">Virtual Millionaire</a>
+                <a class="navbar-brand" href="{% url 'intro' %}">Virtual Millionaire</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -72,7 +72,14 @@
                   <a class="nav-link active" href="{% url 'currency' %}">Валюты</a>
                 </div>
               </div>
-             <a class="Authorisation" href="{% url 'login' %}" style="text-align: right;"><img class="AuthorisationImg" src="{% static 'app/image/loginLight.png' %}">Авторизация</a>
+             {% if request.session.user_login %}
+                <span class="navbar-text">Добро пожаловать, {{ request.session.user_login }}!</span>
+                <a class="nav-link active" href="{% url 'intro' %}">Выйти</a>
+            {% else %}
+                <a class="Authorisation" href="{% url 'login' %}" style="text-align: right;">
+                    <img class="AuthorisationImg" src="{% static 'app/image/loginLight.png' %}">Авторизация
+                </a>
+            {% endif %}
             </div>
         </nav>
     <div class="MainPart">
