@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, redirect
 from .models import User
+import os
 
 
 # Create your views here.
@@ -13,13 +14,45 @@ def index(request):
     return render(request, 'app/index.html')
 
 def rating(request):
-    return render(request, 'app/rating.html')
+    users = User.objects.filter(id__gte=1, id__lte=100)  # Фильтруем по ID
+    return render(request, 'app/rating.html', {'users': users})
 
 def currency(request):
     return render(request, 'app/currency.html')
 
 def profile(request):
-    return render(request, 'app/profile.html')
+    user_login = request.session.get('user_login')
+    user = User.objects.filter(login=user_login).first()  # Перенаправляем на страницу профиля после сохранения
+    return render(request, 'app/profile.html', {'user': user})
+
+def edit_profile(request):
+    user_login = request.session.get('user_login')
+    user = User.objects.filter(login=user_login).first()  # Получаем текущего пользователя
+
+    if request.method == 'POST':
+        new_login = request.POST.get('login')
+        if new_login:
+            user.login = new_login
+
+        # Проверяем, загружен ли новый аватар
+        if request.FILES.get('avatar'):
+            avatar_file = request.FILES['avatar']
+            # Получаем расширение файла
+            ext = os.path.splitext(avatar_file.name)[1].lower()  # Получаем расширение и приводим к нижнему регистру
+
+            # Проверяем, является ли файл изображением с разрешенными расширениями
+            if ext in ['.jpg', '.jpeg', '.png']:
+                user.avatar = avatar_file  # Сохраняем загруженный файл
+            else:
+                # Если файл не подходит, можно вернуть ошибку или сообщение
+                error_message = "Пожалуйста, загрузите изображение в формате JPG, JPEG или PNG."
+                return render(request, 'app/edit_profile.html', {'user': user, 'error_message': error_message})
+
+        # Если аватар не загружен, оставляем текущее значение
+        user.save()  # Сохраняем изменения в модели
+        return redirect('intro')  # Перенаправляем на страницу профиля после сохранения
+
+    return render(request, 'app/edit_profile.html', {'user': user})
 
 def login(request):
     if request.method == 'POST':
@@ -80,9 +113,8 @@ def registration(request):
 
     return render(request, 'app/registration.html', {'login': login})
 
-def edit_profile(request):
-    return render(request, 'app/edit_profile.html')
-
+def news(request):
+    return render(request, 'app/news.html')
 
 def intro(request):
     try:

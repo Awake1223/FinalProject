@@ -14,25 +14,66 @@
 {% load static %}
 <style> 
     body {background-image: url("{% static 'app/image/background4.jpg' %}"); font-family: "Roboto", sans-serif;}
+/* Стили для таблицы */
+table {
+    width: 100%; /* Полная ширина таблицы */
+    border-collapse: collapse; /* Убираем промежутки между ячейками */
+    margin: 20px 0; /* Отступы сверху и снизу */
+}
+
+/* Стили для заголовков таблицы */
+th {
+    background-color: lightblue; /* Фоновый цвет заголовков */
+    color: #333; /* Цвет текста заголовков */
+    padding: 10px; /* Отступы внутри ячеек заголовков */
+    text-align: left; /* Выравнивание текста по левому краю */
+}
+
+/* Стили для ячеек таблицы */
+td {
+    border: 1px solid #ddd; /* Рамка вокруг ячеек */
+    padding: 8px; /* Отступы внутри ячеек */
+    text-align: left; /* Выравнивание текста по левому краю */
+}
+
+/* Эффект при наведении на строки таблицы */
+tr:hover {
+    background-color: #f2f2f2; /* Изменение фона при наведении */
+}
+
+/* Рекомендуемые стили для адаптивности */
+@media (max-width: 600px) {
+    th, td {
+        padding: 5px; /* Уменьшаем отступы на маленьких экранах */
+    }
+
+    th {
+        font-size: 14px; /* Уменьшение размера шрифта заголовков */
+    }
+
+    td {
+        font-size: 12px; /* Уменьшение размера шрифта ячеек */
+    }
+}
 </style>
 <body>
-    <div class="container">
+    <div class="container" style="margin-bottom:10%">
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: lightblue;">
             <div class="container-fluid" style="background-color: lightblue;">
                 <img src="{% static 'app/image/logoLight.png' %}" alt="ЛогоСветлое" width="64px%" height="64px" class="d-inline-block align-text-top">
-                <a class="navbar-brand" href="{% url 'intro' %}">Virtual Millionaire</a>
+                <a class="navbar-brand" href="{% url 'home' %}">Virtual Millionaire</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
                 <span class="navbar-toggler-icon"></span>
                 </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="background-color: lightblue;">
                 <div class="navbar-nav" style="background-color: lightblue;">
-                  <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
-                  <a class="nav-link active" href="{% url 'rating' %}"">Рейтинг</a>
+                  <a class="nav-link active" aria-current="page" href="{% url 'news' %}">Новости</a>
+                  <a class="nav-link active" href="{% url 'rating' %}">Рейтинг</a>
                   <a class="nav-link active" href="{% url 'currency' %}">Валюты</a>
                 </div>
               </div>
              {% if request.session.user_login %}
-                <span class="navbar-text">Добро пожаловать, {{ request.session.user_login }}!</span>
+                <span class="navbar-text">Добро пожаловать, <a href="{% url 'profile' %}"> {{ request.session.user_login }}! </a></span>
                 <a class="nav-link active" href="{% url 'intro' %}">Выйти</a>
             {% else %}
                 <a class="Authorisation" href="{% url 'login' %}" style="text-align: right;">
@@ -41,6 +82,21 @@
             {% endif %}
             </div>
           </nav>
+        <h1>Список пользователей (ID от 1 до 100)</h1>
+            <table>
+            <tr>
+                <th>Логин</th>
+                <th>Почта</th>
+                <th>Аватар</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.login }}</td>
+                <td>{{ user.mail }}</td>
+                <td>{% if user.avatar %}<img src="{{ user.avatar.url }}" alt="Avatar" style="border-radius: 30px; border: 2px light blue; height: 50px;"  width="50px">{% else %}<img src="{% static 'app/image/deafult_avatar.jpg' %}" alt="Avatar" style="border-radius: 30px; border: 2px light blue; height: 50px;"  width="50px">{% endif %}</td>
+            </tr>
+            {% endfor %}
+            </table>
     </div>
 </body>
 </html>
